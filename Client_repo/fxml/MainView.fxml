@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.MailClientController">
+
+    <!-- Area superiore con titolo -->
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #6a11cb, #2575fc); -fx-padding: 15;" spacing="10">
+            <!-- Titolo -->
+            <HBox alignment="CENTER">
+                <Label text="📬 Mail Client" style="-fx-font-size: 26px; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            </HBox>
+            <HBox alignment="CENTER" style="-fx-padding: 5;">
+                <Label text="Stato connessione server: " style="-fx-font-size: 16px; -fx-text-fill: white;" />
+                <Label fx:id="serverStatusLabel" text="Disconnesso" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #FF5252;" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Area sinistra con la lista delle email -->
+    <left>
+        <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: #f9f9f9; -fx-border-color: #dddddd; -fx-border-width: 2; -fx-border-radius: 10;">
+            <!-- Barra di intestazione -->
+            <HBox alignment="CENTER_LEFT" style="-fx-background-color: #0078d4; -fx-padding: 10; -fx-border-radius: 8 8 0 0; -fx-background-radius: 8 8 0 0;">
+                <Label text="📧 Posta in arrivo" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            </HBox>
+
+            <!-- Lista -->
+            <ListView fx:id="inboxListView"
+                      prefWidth="400"
+                      maxHeight="Infinity"
+                      style="-fx-background-color: white;
+                             -fx-control-inner-background: white;
+                             -fx-padding: 5;
+                             -fx-border-color: transparent;
+                             -fx-focus-color: transparent;
+                             -fx-faint-focus-color: transparent;
+                             -fx-cell-focus-inner-border: transparent;"/>
+        </VBox>
+    </left>
+
+    <!-- Area centrale con la schermata principale -->
+    <center>
+        <StackPane fx:id="mainContent" style="-fx-padding: 20;" prefHeight="500">
+            <!-- Schermata di benvenuto -->
+            <VBox fx:id="welcomeScreen" alignment="CENTER" spacing="20" style="-fx-padding: 50; -fx-background-color: #f3f3f3; -fx-border-radius: 10;">
+                <Label text="Benvenuto nel Mail Client!" style="-fx-font-size: 24px; -fx-text-fill: #444;" />
+                <Label text="Seleziona un'email per visualizzarne i dettagli." style="-fx-font-size: 16px; -fx-text-fill: #777;" />
+            </VBox>
+
+            <!-- Dettagli dell'email -->
+            <VBox fx:id="emailDetailsPane" spacing="10" alignment="TOP_LEFT" style="-fx-padding: 10;" visible="false" managed="false">
+                <HBox alignment="CENTER_RIGHT" style="-fx-padding: 0 0 10 0;">
+                    <Button fx:id="closeDetailsButton" text="✖ Chiudi" style="-fx-background-color: #ff5252; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleCloseDetailsAction"/>
+                </HBox>
+
+                <Label fx:id="senderLabel" text="Mittente: " style="-fx-font-size: 14px;" />
+                <Label fx:id="recipientLabel" text="Destinatari: " style="-fx-font-size: 14px;" />
+                <Label fx:id="subjectLabel" text="Oggetto: " style="-fx-font-size: 14px;" />
+                <Label fx:id="dateLabel" text="Data di invio: " style="-fx-font-size: 14px;" />
+                <TextArea fx:id="bodyTextArea" editable="false" wrapText="true" prefHeight="200" style="-fx-font-size: 14px;" />
+                <HBox spacing="10">
+                    <Button fx:id="replyButton" text="Rispondi" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" onAction="#handleReply"/>
+                    <Button fx:id="forwardButton" text="Inoltra" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" onAction="#handleForward" />
+                    <!-- Aggiunto bottone Reply All -->
+                    <Button fx:id="replyAllButton" text="Rispondi a tutti" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" onAction="#handleReplyAll" visible="false" managed="false"/>
+                </HBox>
+            </VBox>
+
+            <!-- Composizione Nuova Email -->
+            <VBox fx:id="composeEmailPane" spacing="10" alignment="TOP_LEFT" style="-fx-padding: 10;" visible="false" managed="false">
+                <HBox alignment="CENTER_RIGHT" style="-fx-padding: 0 0 10 0;">
+                    <Button fx:id="closeComposeButton" text="✖ Chiudi" style="-fx-background-color: #ff5252; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleCloseComposeAction"/>
+                </HBox>
+
+                <Label text="Da:" />
+                <TextField fx:id="fromField" editable="false" style="-fx-font-size: 14px;"/>
+
+                <Label text="A:" />
+                <TextField fx:id="toField" style="-fx-font-size: 14px;" />
+
+                <Label text="Oggetto:" />
+                <TextField fx:id="subjectField" style="-fx-font-size: 14px;" />
+
+                <Label text="Corpo del messaggio:" />
+                <TextArea fx:id="bodyField" wrapText="true" prefHeight="200" style="-fx-font-size: 14px;" />
+
+                <HBox spacing="10">
+                    <Button fx:id="sendButton" text="Invia" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" onAction="#handleSendEmailAction"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+
+    <!-- Area inferiore con i pulsanti -->
+    <bottom>
+        <HBox spacing="20" style="-fx-padding: 15; -fx-background-color: #ffffff; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 8;" alignment="center">
+            <Button fx:id="viewDetailsButton"
+                    text="Visualizza Dettagli"
+                    style="-fx-background-color: #4facfe; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
+                    onAction="#handleViewDetailsAction"/>
+            <Button fx:id="deleteButton" text="Elimina" style="-fx-background-color: #ff5252; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" onAction="#handleDeleteEmailAction"/>
+            <Button fx:id="newEmailButton" text="Nuovo Messaggio" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" onAction="#handleNewEmailAction"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.effect.DropShadow?>
+
+<?import java.lang.String?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="Client.LoginController">
+
+    <VBox spacing="20" alignment="center"
+          style="-fx-background-color: rgba(255, 255, 255, 0.85); -fx-padding: 40; -fx-border-radius: 15; -fx-background-radius: 15;"
+          maxWidth="700">
+
+        <ImageView fitWidth="400" fitHeight="200" preserveRatio="true">
+            <image>
+                <Image url="@/Client/images/foto.jpg" />
+            </image>
+        </ImageView>
+
+        <Label text="Benvenuto!"
+               style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333;">
+            <effect>
+                <DropShadow radius="10" offsetX="0" offsetY="2" color="rgba(0,0,0,0.3)" />
+            </effect>
+        </Label>
+
+        <Label text="Inserisci la tua email per accedere:"
+               style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+
+        <TextField fx:id="emailTextField"
+                   promptText="Inserisci la tua email"
+                   style="-fx-font-size: 14px; -fx-padding: 10; -fx-background-color: #f8f8f8;
+                          -fx-border-radius: 5; -fx-border-color: #ccc; -fx-focus-color: #4e73df;" />
+
+        <Button fx:id="loginButton" text="Accedi"
+                style="-fx-background-color: #4e73df; -fx-text-fill: white; -fx-font-size: 16px;
+                       -fx-padding: 12 24; -fx-background-radius: 25;">
+            <effect>
+                <DropShadow radius="10" offsetX="0" offsetY="2" color="rgba(0,0,0,0.3)" />
+            </effect>
+            <style>
+                .button:hover {
+                -fx-background-color: #3c5db1;
+                -fx-transform: scale(1.05);
+                -fx-cursor: hand;
+                }
+                .button:pressed {
+                -fx-background-color: #2c488e;
+                }
+            </style>
+        </Button>
+
+        <HBox alignment="CENTER" style="-fx-padding: 5;">
+            <Label text="Stato connessione server: " style="-fx-font-size: 16px; -fx-text-fill: white;" />
+        </HBox>
+    </VBox>
+</StackPane>
